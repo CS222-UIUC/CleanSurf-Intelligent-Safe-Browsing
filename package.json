@@ -1,0 +1,24 @@
+{
+  "name": "cleansurf",
+  "version": "1.0.0",
+  "description": "Explicit content filtering on webpages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CS222-UIUC/course-project-group-1.git"
+  },
+  "author": "Shayan Azmoodeh, Timor Averbuch, Pavitra Aneja, Aamina Ali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CS222-UIUC/course-project-group-1/issues"
+  },
+  "homepage": "https://github.com/CS222-UIUC/course-project-group-1#readme",
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-google": "^0.14.0",
+    "prettier": "2.7.1"
+  }
+}
