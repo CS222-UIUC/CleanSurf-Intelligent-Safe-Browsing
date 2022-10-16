@@ -2,7 +2,7 @@
   "name": "cleansurf",
   "version": "1.0.0",
   "description": "Explicit content filtering on webpages",
-  "main": "index.js",
+  "main": "extension/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
