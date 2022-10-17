@@ -5,8 +5,6 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from PIL import Image
 
-from image_processor import ImageProcessor
-
 
 def decode_image(encoded_image: str) -> Image:
     """
@@ -31,10 +29,29 @@ def encode_image(image: Image) -> str:
     return img_bytes.decode('utf-8')
 
 
+# Temporary class
+class ImageProcessor:
+    def processor(self, image):
+        # return image of same shape but with all pixels set to red
+        red_image = image.copy()
+        red_image[:, :, 0] = 255
+        red_image[:, :, 1] = 0
+        red_image[:, :, 2] = 0
+        return red_image
+
+
 class ImageResource(Resource):
-    def get(self, img: str):
-        decoded_image = decode_image(img.replace('-', '/'))
-        processed_image = ImageProcessor.blur(decoded_image)
+    def __init__(self, api):
+        self.api = api
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('image', type=str, required=True)
+        args = parser.parse_args()
+
+        image = args['image']
+        decoded_image = decode_image(image)
+        processed_image = self.api.image_processor.processor(decoded_image)
         encoded_image = encode_image(processed_image)
 
         return {'image': encoded_image}
@@ -46,15 +63,12 @@ class CleanSurfApi(Flask):
         self.api = Api(self)
         self.image_processor = ImageProcessor()
 
-        self.api.add_resource(ImageResource, '/image/<string:img>')
+        self.api.add_resource(ImageResource, '/image', resource_class_kwargs={'api': self})
 
     def run(self, *args, **kwargs):
         super().run(*args, **kwargs)
 
 
 if __name__ == '__main__':
-
     app = CleanSurfApi(__name__)
     app.run(debug=True)
-
-
