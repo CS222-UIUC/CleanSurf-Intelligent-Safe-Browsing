@@ -1,6 +1,5 @@
 # Import modu# Import module
 from nudenet import NudeClassifier
-from ProjectClass.ProjectClass import *
 
 # initialize classifier (downloads the checkpoint file automatically the first time)
 classifier = NudeClassifier()
