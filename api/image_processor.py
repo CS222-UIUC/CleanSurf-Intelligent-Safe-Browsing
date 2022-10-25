@@ -5,5 +5,5 @@ class ImageProcessor:
     @staticmethod
     def blur(image: Image) -> Image:
         # Blurring the image
-        return image.filter(ImageFilter.GaussianBlur(25))
+        Image.open(image).filter(ImageFilter.GaussianBlur(25)).show()
     
