@@ -3,6 +3,7 @@ import io
 
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from image_processor import ImageProcessor
 from PIL import Image
 
 
@@ -29,17 +30,6 @@ def encode_image(image: Image) -> str:
     return img_bytes.decode('utf-8')
 
 
-# Temporary class
-class ImageProcessor:
-    def processor(self, image):
-        # return image of same shape but with all pixels set to red
-        red_image = image.copy()
-        red_image[:, :, 0] = 255
-        red_image[:, :, 1] = 0
-        red_image[:, :, 2] = 0
-        return red_image
-
-
 class ImageResource(Resource):
     def __init__(self, api):
         self.api = api
@@ -51,7 +41,7 @@ class ImageResource(Resource):
 
         image = args['image']
         decoded_image = decode_image(image)
-        processed_image = self.api.image_processor.processor(decoded_image)
+        processed_image = self.api.image_processor.process(decoded_image)
         encoded_image = encode_image(processed_image)
 
         return {'image': encoded_image}
