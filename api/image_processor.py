@@ -21,4 +21,3 @@ class ImageProcessor:
             processed_image = image
         os.remove(image_path)
         return processed_image
-    
