@@ -8,7 +8,7 @@ classifier = NudeClassifier()
 
 
 class ImageProcessor:
-    def __init__(self, threshold: float = 0.5):
+    def __init__(self, threshold: float = 0.2):
         self.threshold = threshold
 
     def process(self, image: Image) -> Image:
