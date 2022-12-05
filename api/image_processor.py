@@ -19,4 +19,3 @@ class ImageProcessor:
         except OSError:
             print("Could not delete file {}".format(image_path))
         return verdict
-    
