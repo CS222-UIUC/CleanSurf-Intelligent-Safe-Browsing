@@ -1,3 +1,8 @@
+/**
+ * Sends a message to the content script
+ *
+ * @param {string} message
+ */
 function sendMessage(message) {
   console.log(message);
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
