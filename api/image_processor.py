@@ -1,28 +1,22 @@
 import time
 import os
+import io
 
-from PIL import Image, ImageFilter
+from PIL import Image
 from nudenet import NudeClassifier
 
 classifier = NudeClassifier()
 
 
 class ImageProcessor:
-    def __init__(self, threshold: float = 0.2):
-        self.threshold = threshold
-
-    def process(self, image: Image) -> Image:
-        # Blurring the image
+    @staticmethod
+    def process(image: io.BytesIO) -> dict:
         image_path = 'temp_{}.png'.format(time.time())
-        image.save(image_path)
-        if classifier.classify(image_path)[image_path]['unsafe'] > self.threshold:
-            print("Found explicit content")
-            processed_image = image.filter(ImageFilter.GaussianBlur(radius=10))
-        else:
-            processed_image = image
+        Image.open(image).save(image_path, format='PNG')
+        verdict = classifier.classify(image_path)[image_path]
         try:
             os.remove(image_path)
         except OSError:
             print("Could not delete file {}".format(image_path))
-        return processed_image
+        return verdict
     

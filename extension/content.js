@@ -61,7 +61,12 @@
         body: JSON.stringify({image: data}),
       }).then((res) => {
         res.json().then((data) => {
-          image.src = 'data:image/png;base64,' + data['image'];
+          const verdict = data['verdict'];
+          console.log(verdict);
+          if (verdict['unsafe'] > 0.2) {
+            console.log(verdict['unsafe']);
+            image.style.filter = `blur(10px) opacity(1)`;
+          }
         }).catch((err) => {
           console.log('Response error: ', err);
         });
