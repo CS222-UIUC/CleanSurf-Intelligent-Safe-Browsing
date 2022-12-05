@@ -13,11 +13,15 @@ class ImageProcessor:
 
     def process(self, image: Image) -> Image:
         # Blurring the image
-        image_path = 'temp_{}.jpeg'.format(time.time())
+        image_path = 'temp_{}.png'.format(time.time())
         image.save(image_path)
         if classifier.classify(image_path)[image_path]['unsafe'] > self.threshold:
+            print("Found explicit content")
             processed_image = image.filter(ImageFilter.GaussianBlur(radius=10))
         else:
             processed_image = image
-        os.remove(image_path)
+        try:
+            os.remove(image_path)
+        except OSError:
+            print("Could not delete file {}".format(image_path))
         return processed_image

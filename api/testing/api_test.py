@@ -16,7 +16,7 @@ non_explicit_image = Image.open(non_explicit_image_path)
 
 def api_process_explicit_image():
     encoded_image = encode_image(explicit_image)
-    response = requests.post('http://{}:{}/image'.format(SERVER_IP, SERVER_PORT), json={'image': encoded_image})
+    response = requests.post('http://{}:{}/image'.format(SERVER_IP, SERVER_PORT), json={"image": encoded_image})
     decoded_image = decode_image(response.json()['image'])
     # save the image
     decoded_image.save('processed_explicit_image.jpeg')
