@@ -2,6 +2,12 @@
 
 
 (function() {
+  /**
+   * Wait for the image to load
+   *
+   * @param {Element} imgElem
+   * @return {Promise<unknown>}
+   */
   function waitForImage(imgElem) {
     return new Promise((res, rej) => {
       if (imgElem.complete) {
@@ -12,6 +18,12 @@
     });
   }
 
+  /**
+   * Returns the base64 encoded image
+   *
+   * @param {Element} img
+   * @return {Promise<unknown>}
+   */
   async function getBase64Image(img) {
     const altImg = new Image();
     // wait for the image to load
@@ -31,6 +43,11 @@
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
   }
 
+  /**
+   * Cleans the image element
+   *
+   * @param {Element} image
+   */
   function clean(image) {
     // image.style.filter = `blur(10px) opacity(1)`;
     // log the image's base64 string
@@ -44,7 +61,12 @@
         body: JSON.stringify({image: data}),
       }).then((res) => {
         res.json().then((data) => {
-          image.src = 'data:image/png;base64,' + data['image'];
+          const verdict = data['verdict'];
+          console.log(verdict);
+          if (verdict['unsafe'] > 0.2) {
+            console.log(verdict['unsafe']);
+            image.style.filter = `blur(10px) opacity(1)`;
+          }
         }).catch((err) => {
           console.log('Response error: ', err);
         });
@@ -55,9 +77,11 @@
     }).catch((err) => {
       console.log('Image error: ', err);
     });
-    // console.log(getBase64Image(image));
   }
 
+  /**
+   * Cleans all images on the page
+   */
   function cleanAll() {
     const images = document.querySelectorAll('img');
     for (const image of images) {
