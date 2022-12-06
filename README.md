@@ -18,28 +18,28 @@ ___CleanSurf___ it is a web extension that allows for seamless filtering of expl
 ## Installation
 <!-- create a list of steps to install the extension. Headlines in bold -->
 
-### Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/CS222-UIUC/course-project-group-1.git
 ```
 
-### Install the dependencies
+### Install the API Dependencies
 
-Make sure you have Python 3.9 or higher installed. Then, install the dependencies using the following command:
+Make sure you have Python 3.9 or higher installed to run the Flask API. Then, install the dependencies using the following command:
 
 ```bash
-pip install -r requirements.txt
+pip install -r ./api/requirements.txt
 ```
 
 Make sure you have a chromium based browser installed.
 
-### Install nudeNet models
+### Install NudeNet Models
 
 Models are located under the 'models' directory. To install the models, run the following command:
 
 ```bash
-python models/install_models.py
+python ./api/models/model_installer.py
 ```
 
 ***
@@ -47,7 +47,7 @@ python models/install_models.py
 ## Usage
 <!-- create a list of steps to use the extension. Headlines in bold -->
 
-### Run the server
+### Run the Server
 
 ```bash
 python api/api.py
@@ -55,7 +55,7 @@ python api/api.py
 
 Note that the server is using port 5000 by default. If you want to change the port, you can do so by editing the `api/api.py` file.
 
-### Load the extension
+### Load the Extension
 
 1. On your browser, go to `chrome://extensions/`
 2. Enable developer mode by toggling the switch in the top right corner (left panel if you are using Edge)
@@ -63,7 +63,7 @@ Note that the server is using port 5000 by default. If you want to change the po
 4. Navigate to the `extension` directory and select it
 5. Make sure the extension is enabled
 
-### Use the extension
+### Use the Extension
 
 1. Navigate to any website
 2. Click on the extension icon
