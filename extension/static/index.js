@@ -2,6 +2,7 @@
  * Sends a message to the content script
  *
  * @param {string} message
+ * @param {function} onReceive
  */
 function sendMessage(message) {
   console.log(message);
@@ -10,10 +11,13 @@ function sendMessage(message) {
   });
 }
 
-const btn = document.getElementById('clean-btn');
-btn.addEventListener('click', function onClick(event) {
-  sendMessage('clean');
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('clean-btn');
+  btn.addEventListener('click', function onClick(event) {
+    sendMessage('clean');
+  });
 });
+
 
 const slider = document.getElementById('intensity-slider');
 slider.addEventListener('input', () => {

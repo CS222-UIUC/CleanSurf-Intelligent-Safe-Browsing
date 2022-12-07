@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 (function() {
+  const imagesMap = new Map();
+
   /**
    * Wait for the image to load
    *
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {Element} image
    */
   function clean(image) {
+    imagesMap.set(image, false);
     // image.style.filter = `blur(10px) opacity(1)`;
     // log the image's base64 string
     getBase64Image(image).then((data) => {
@@ -64,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({image: data}),
       }).then((res) => {
         res.json().then((data) => {
+          imagesMap.set(image, true);
           const verdict = data['verdict'];
           console.log(verdict);
           chrome.storage.sync.get(['blurThreshold'], (values) => {
@@ -73,32 +77,78 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           });
         }).catch((err) => {
+          imagesMap.set(image, true);
           console.log('Response error: ', err);
         });
         // image.src = 'data:image/png;base64,' + res.json()['image'];
       }).catch((err) => {
+        imagesMap.set(image, true);
         console.log('Network error: ', err);
       });
     }).catch((err) => {
+      imagesMap.set(image, true);
       console.log('Image error: ', err);
     });
   }
 
   /**
    * Cleans all images on the page
+   *
+   * @return {Promise<void>}
    */
   function cleanAll() {
     const images = document.querySelectorAll('img');
     for (const image of images) {
-      clean(image);
+      if (!imagesMap.has(image)) {
+        clean(image);
+      } else {
+        console.log('Image already cleaned');
+      }
     }
+
+    return new Promise((res, rej) => {
+      const interval = setInterval(() => {
+        if (Array.from(imagesMap.values()).every((val) => val)) {
+          clearInterval(interval);
+          res();
+        }
+      });
+    });
   }
 
   chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
+        const overlay = document.createElement('div');
+        overlay.setAttribute('style',
+            'position: fixed; top: 0; left: 0; width: 100%; height: 100%;' +
+            'background-color: rgba(111, 255, 224); opacity: 0.6; ',
+        );
+
+        const text = document.createElement('div');
+        text.innerHTML = 'CLEANING...';
+        text.setAttribute('style',
+            'position: absolute; top: 50%; left: 50%; transform: ' +
+            'translate(-50%, 0%); font-size: 50px; color: white; ' +
+            'font-weight: bold; text-align: center; width: 100%; ' +
+            'height: 100%; font-family: \'Source Code Pro\', monospace; ',
+        );
+
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
         if (request.status === 'clean') {
-          console.log('cleaning');
-          cleanAll();
+          cleanAll().then(() => {
+            console.log('Done');
+            text.innerHTML = 'PAGE CLEANED';
+            // Create overlay div on page that says DONE in capital letters
+            const fade = setInterval(function() {
+              if (overlay.style.opacity > 0) {
+                overlay.style.opacity -= 0.01;
+              } else {
+                overlay.remove();
+                clearInterval(fade);
+              }
+            }, 25);
+          });
         }
       });
 })();
