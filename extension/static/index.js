@@ -14,3 +14,15 @@ const btn = document.getElementById('clean-btn');
 btn.addEventListener('click', function onClick(event) {
   sendMessage('clean');
 });
+
+const slider = document.getElementById('intensity-slider');
+slider.addEventListener('input', () => {
+  chrome.storage.sync.set({'blurThreshold': slider.value / 10});
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  chrome.storage.sync.get(['blurThreshold'], (values) => {
+    const slider = document.getElementById('intensity-slider');
+    slider.value = values.blurThreshold * 10;
+  });
+});

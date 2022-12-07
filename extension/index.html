@@ -6,15 +6,15 @@
     <link href='https://fonts.googleapis.com/css?family=Source Code Pro' rel='stylesheet'>
     <link rel="stylesheet" href="static/index.css">
 </head>
-<script src="static/index.js"></script>
 <body>
     <div class="slider">
         <p class="rangeValue">0</p>
-        <input type="range" min="0" max="10" value="10" oninput="rangeValue.innerText = this.value">
+        <input type="range" id="intensity-slider" min="0" max="10" value="5">
         <p class="rangeValue">10</p>
     </div>
     <div class="container mt-3" style="width: 215px; height: 215px;">
         <button class="btn btn-primary btn-circle btn-xl" id="clean-btn" type="button">CLEAN</button>
     </div>        
 </body>
+<script src="static/index.js"></script>
 </html>
