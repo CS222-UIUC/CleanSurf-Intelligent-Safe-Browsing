@@ -1,7 +1,7 @@
 'use strict';
 
-document.addEventListener("DOMContentLoaded", () => {
-  chrome.storage.sync.set({"blurThreshold" : 0.5});
+document.addEventListener('DOMContentLoaded', () => {
+  chrome.storage.sync.set({'blurThreshold': 0.5});
 });
 
 (function() {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         res.json().then((data) => {
           const verdict = data['verdict'];
           console.log(verdict);
-          chrome.storage.sync.get(["blurThreshold"], (values) => {
+          chrome.storage.sync.get(['blurThreshold'], (values) => {
             if (verdict['unsafe'] > 1-values.blurThreshold) {
               console.log(verdict['unsafe']);
               image.style.filter = `blur(10px) opacity(1)`;
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
         if (request.status === 'clean') {
-          console.log("cleaning");
+          console.log('cleaning');
           cleanAll();
         }
       });
