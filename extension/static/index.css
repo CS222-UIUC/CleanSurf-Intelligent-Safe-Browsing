@@ -35,10 +35,10 @@ body {
 @keyframes shadow-fade {
     20% {
 	bottom: 10px;
-	box-shadow: 0 0 10px 10px #6FFFE9, 0 6px 10px 0 #6FFFE0;
+	box-shadow: 0 0 10px 10px #6FFFE9, 0 0 6px 5px #6FFFE0;
     }
     100% {
-	box-shadow: 1px 4px 6px 0 #6FFFE9, 0 6px 10px 0 #6FFFE0;
+	box-shadow: 0 0 6px 0 #6FFFE9, 0 0 6px 5px #6FFFE0;
     }
 }
 
