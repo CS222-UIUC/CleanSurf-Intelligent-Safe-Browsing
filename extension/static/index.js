@@ -3,6 +3,7 @@
  *
  * @param {string} message
  */
+
 function sendMessage(message) {
   console.log(message);
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
@@ -14,3 +15,15 @@ const btn = document.getElementById('clean-btn');
 btn.addEventListener('click', function onClick(event) {
   sendMessage('clean');
 });
+
+var slider = document.getElementById("intensity-slider");
+slider.addEventListener("input", () => {
+  chrome.storage.sync.set({'blurThreshold' : slider.value / 10});
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.sync.get(['blurThreshold'], (values) => {
+    let slider = document.getElementById("intensity-slider");
+    slider.value = values.blurThreshold * 10;
+  })
+})
