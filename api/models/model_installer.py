@@ -1,4 +1,5 @@
 import os
+import shutil
 
 try:
     import nudenet
@@ -19,8 +20,8 @@ for model_file in model_files:
     if os.path.exists(model_path):
         os.remove(model_path)
     # Copy the model file
-    print("Copying {} to {}".format(model_file, model_path))
-    os.system("copy {} {}".format(model_file, model_path))
+    print("Copying ./{} to {}".format(model_file, model_path))
+    shutil.copy(f"./api/models/{model_file}", model_folder)
 
 print("Model files copied to {}".format(model_folder))
 
